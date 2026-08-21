@@ -8,7 +8,6 @@ class Solution:
         for _ in range(iterations):
             x_old = init
             init = x_old - (learning_rate * 2 * x_old)
-            print(init)
         
         return round(init, 5)
         
