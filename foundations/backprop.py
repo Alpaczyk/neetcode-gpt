@@ -16,8 +16,12 @@ class Solution:
 
         z = np.dot(x, w) + b
         y_pred = 1 / (1 + np.exp(-z))
-        loss = ((y_pred - y_true) ** 2) / 2
-        weight_gradient = np.multiply((y_pred - y_true) * y_pred * (1 - y_pred), x) 
-        bias_gradient = (y_pred - y_true) * y_pred * (1 - y_pred)
-        return (np.round(weight_gradient, 5), round(bias_gradient, 5))
+        
+        error = y_pred - y_true
+        sigmoid_deriv = y_pred * (1 - y_pred)
+        delta = error * sigmoid_deriv
+
+        dL_dw = np.round(delta * x, 5)
+        dL_db = round(float(delta), 5)
+        return (dL_dw, dL_db)
         pass
