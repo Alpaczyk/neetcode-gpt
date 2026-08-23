@@ -23,7 +23,7 @@ class MultiHeadedSelfAttention(nn.Module):
         for l in self.attention_heads:
             head_res.append(l(embedded))
         out = self.output(torch.concat(head_res, dim=2))
-        return out
+        return torch.round(out, decimals=4)
         pass
 
     class SingleHeadAttention(nn.Module):
