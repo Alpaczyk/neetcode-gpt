@@ -17,12 +17,14 @@ class Solution:
         # Use torch.randint to pick random starting positions
         torch.manual_seed(0)
         start_indices = torch.randint(len(data) - context_length, size=(batch_size,))
-        X = []
-        Y = []
-        for idx in start_indices:
-            x = data[idx : idx + context_length]
-            y = data[idx + 1: idx + 1 + context_length]
-            X.append(x)
-            Y.append(y)
-        return torch.stack(X), torch.stack(Y)
-        pass
+        
+        # Create a 2D tensor of all indices needed for X
+        # Shape: (batch_size, context_length)
+        offsets = torch.arange(context_length)
+        x_indices = start_indices.unsqueeze(1) + offsets
+        
+        # Extract X and Y using advanced indexing
+        X = data[x_indices]
+        Y = data[x_indices + 1]
+        
+        return X, Y
