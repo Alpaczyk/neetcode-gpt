@@ -9,12 +9,9 @@ class Solution:
         # 3. For each index i, X = tokens[i:i+context_length], Y = tokens[i+1:i+1+context_length]
         torch.manual_seed(0)
         vocab = raw_dataset.split()
-        indices = torch.randint(len(vocab) - context_length, (batch_size,))
-
-        offsets = torch.arange(context_length)
-        x_indices = indices.unsqueeze(1) + offsets
+        ix = torch.randint(len(vocab) - context_length, (batch_size,))
         
-        X = [[vocab[x] for x in x_indic] for x_indic in x_indices]
-        Y =  [[vocab[x] for x in x_indic] for x_indic in x_indices + 1]
+        X = [vocab[i:i + context_length] for i in ix]
+        Y = [vocab[i+1:i+context_length + 1] for i in ix]
         return X,Y
         pass
