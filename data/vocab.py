@@ -7,12 +7,12 @@ class Solution:
         # - itos is the reverse mapping (integer to character)
         chars = sorted(set(text))
         stoi = {c: i for i, c in enumerate(chars)}
-        itos = {i: c for i, c in enumerate(chars)}
+        itos = {i: c for c, i in stoi.items()}
         return (stoi, itos)
 
     def encode(self, text: str, stoi: Dict[str, int]) -> List[int]:
         # Convert a string to a list of integers using stoi mapping
-        return [stoi[char] for char in list(text)]
+        return [stoi[char] for char in text]
         pass
 
     def decode(self, ids: List[int], itos: Dict[int, str]) -> str:
