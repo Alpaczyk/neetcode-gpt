@@ -21,7 +21,9 @@ class Solution:
         # Create a 2D tensor of all indices needed for X
         # Shape: (batch_size, context_length)
         offsets = torch.arange(context_length)
+        print(offsets)
         x_indices = start_indices.unsqueeze(1) + offsets
+        print(x_indices)
         
         # Extract X and Y using advanced indexing
         X = data[x_indices]
