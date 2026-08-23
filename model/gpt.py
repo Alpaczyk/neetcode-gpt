@@ -11,7 +11,9 @@ class GPT(nn.Module):
         torch.manual_seed(0)
         self.embedding = nn.Embedding(vocab_size, model_dim)
         self.pos_embedding = nn.Embedding(context_length, model_dim)
-        self.transformers = nn.ModuleList([self.TransformerBlock(model_dim, num_heads) for i in range(num_blocks)])
+        self.transformers = nn.Sequential()
+        for i in range(num_blocks):
+            self.transformers.append(self.TransformerBlock(model_dim, num_heads))
         self.lnorm = nn.LayerNorm(model_dim)
         self.linear = nn.Linear(model_dim, vocab_size)
         # Hint: nn.Sequential() will be useful for the block sequence
@@ -28,8 +30,7 @@ class GPT(nn.Module):
         positions = torch.arange(T)
         pos_emb = self.pos_embedding(positions)
         x = x + pos_emb
-        for l in self.transformers:
-            x = l(x)
+        x = self.transformers(x)
         x = self.lnorm(x)
         x = self.linear(x)
         return torch.round(x, decimals=4)
