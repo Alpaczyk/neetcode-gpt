@@ -15,7 +15,7 @@ class Solution:
         position = np.arange(seq_len).reshape(-1, 1)
         div_term = 10000 ** (np.arange(0, d_model, 2) / d_model)
         PE[:, 0::2] = np.sin(position / div_term)
-        PE[:, 1::2] = np.cos(position / div_term[:PE[:, 1::2].shape[1]])
+        PE[:, 1::2] = np.cos(position / div_term)
 
         return np.round(PE, 5)
 
