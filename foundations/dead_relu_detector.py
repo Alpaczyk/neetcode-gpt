@@ -39,7 +39,7 @@ class Solution:
                 if frac > 0.1 and increase:
                     return 'reduce_learning_rate'
             else:
-                if dead_fractions[idx + 1] <= frac:
+                if dead_fractions[idx + 1] < frac:
                     increase = False
         return 'healthy'
         pass
