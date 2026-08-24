@@ -15,13 +15,15 @@ class Solution:
         initial_state = generator.get_state()
         res = ""
         for i in range(new_chars):
-            context = context[:, -context_length:]
+            if context.shape[1] > context_length:
+                context = context[:, -context_length:]
             logits = model(context)
+            last_logits = logits[:, -1, :] 
             softmax = nn.Softmax(dim=-1)
-            probs = softmax(logits)
-            token = torch.multinomial(probs.flatten(), 1, generator=generator)
+            probs = softmax(last_logits)
+            token = torch.multinomial(probs, 1, generator=generator)
             generator.set_state(initial_state)
-            torch.cat((context, token.view(1,1)), dim=1)
+            context = torch.cat((context, token), dim=-1)
             res += int_to_char[token.item()]
         return res
         # Once your code passes the test, check out the Colab link to see your code generate new Drake lyrics!
